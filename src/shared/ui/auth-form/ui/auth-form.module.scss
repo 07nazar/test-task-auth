@@ -1,0 +1,17 @@
+.form {
+  max-width: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  padding: 30px;
+  background: var(--secondary);
+  border: 1px solid var(--strokes-secondady);
+  border-radius: 5px;
+}
+
+.input_group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
