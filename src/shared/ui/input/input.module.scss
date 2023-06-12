@@ -1,0 +1,35 @@
+.inputWrapper {
+  max-width: 330px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--strokes-primary);
+  border-radius: 5px;
+  padding: 12px 21px;
+  gap: 12px;
+  transition: border 0.3s;
+  &:hover {
+    border: 1px solid #838383;
+  }
+}
+.focus {
+  border: 1px solid #838383;
+}
+.input {
+  flex-grow: 1;
+  font-size: var(--fs-16);
+  font-weight: var(--fw-400);
+  color: var(--primary);
+}
+
+.fill {
+  color: var(--primary);
+}
+.error {
+  border: 1px solid var(--error);
+}
+.disable {
+  background: #f3f3f3;
+  color: #838383;
+}
