@@ -31,5 +31,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     semi: 'off',
     'prettier/prettier': 'off',
+    "react/require-default-props": "off",
+    "no-param-reassign": ["error", { "props": false }],
   },
 }
