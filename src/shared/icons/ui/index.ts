@@ -1,0 +1,6 @@
+export { Eye } from './eye'
+export { ArrowDown } from './arrow-down'
+export { Castle } from './castle'
+export { PictureIcon } from './picture'
+export { MailIcon } from './mail-icon'
+export { ProfileIcon } from './profileIcon'
