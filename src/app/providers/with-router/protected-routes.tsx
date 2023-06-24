@@ -1,15 +1,27 @@
-import { Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-import { type FC } from 'react'
+import { type FC, useEffect } from 'react'
 import { RouterLayout } from 'src/app/layouts'
+import { useSliceSelector } from 'src/shared/lib/hooks/use-app-selector'
+import { useAppDispatch } from 'src/shared/lib/hooks/use-app-dispatch'
+import { fetchProfile } from 'src/entities/user/api/user-api'
 
 export const ProtectedRoutes: FC = () => {
-  const user = { isAuth: false }
-  const token = ''
+  const { isAuthorized } = useSliceSelector('session', state => state)
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
-  if (!user.isAuth || token.length === 0) {
-    return <Navigate to='auth' />
-  }
+  useEffect(() => {
+    if (!isAuthorized) {
+      navigate('/auth')
+    } else {
+      void dispatch(fetchProfile())
+    }
+  }, [dispatch, isAuthorized, navigate])
 
-  return <RouterLayout />
+  return (
+    <div className='bg-white'>
+      <RouterLayout />
+    </div>
+  )
 }
