@@ -1,28 +1,32 @@
 import { createBrowserRouter } from 'react-router-dom'
+import { withLazy } from 'src/app/providers/with-lazy'
 
-import { ProtectedRoutes } from 'src/app/providers/with-router/protected-routes'
-import { Home } from 'src/pages/home'
-import { Account } from 'src/pages/account'
-import { AccountsList } from 'src/pages/accounts-list'
-import { AuthRoutes } from 'src/app/providers/with-router/auth-routes'
-import { Auth } from 'src/pages/auth'
+import {
+  AsyncAccount,
+  AsyncAccountsList,
+  AsyncAuth,
+  AsyncEdit,
+  AsyncHome,
+} from 'src/pages'
+import { ProtectedRoutes } from './protected-routes'
+import { AuthRoutes } from './auth-routes'
 
 export const router = createBrowserRouter([
+  { path: 'home', element: withLazy(<AsyncHome />) },
   {
     path: '/',
     element: <ProtectedRoutes />,
     children: [
       {
         index: true,
-        element: <Home />,
+        element: withLazy(<AsyncAccountsList />),
       },
       {
-        path: 'account/:id',
-        element: <Account />,
-      },
-      {
-        path: 'accounts',
-        element: <AccountsList />,
+        path: 'account',
+        children: [
+          { path: ':id', element: withLazy(<AsyncAccount />) },
+          { path: 'edit/:id', element: withLazy(<AsyncEdit />) },
+        ],
       },
     ],
   },
@@ -32,30 +36,12 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Auth type='login' />,
+        element: withLazy(<AsyncAuth type='login' />),
       },
       {
         path: 'register',
-        element: <Auth type='register' />,
+        element: withLazy(<AsyncAuth type='register' />),
       },
     ],
   },
 ])
-
-// {
-//   path: '/',
-//       element: <ProtectedRoutes />,
-//     children: [
-//   { index: true, element: <Home /> },
-//   { path: 'account/:id', element: <Account /> },
-//   { path: 'accounts', element: <AccountsList /> },
-// ],
-// },
-// {
-//   path: '/auth',
-//       element: <AuthRoutes />,
-//     children: [
-//   { index: true, element: <Auth type='login' /> },
-//   { path: 'register', element: <Auth type='register' /> },
-// ],
-// },
