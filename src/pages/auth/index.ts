@@ -1,1 +1,1 @@
-export * from './ui'
+export { AsyncAuth } from './ui'
