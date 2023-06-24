@@ -33,5 +33,10 @@ module.exports = {
     'prettier/prettier': 'off',
     "react/require-default-props": "off",
     "no-param-reassign": ["error", { "props": false }],
+    "no-underscore-dangle": 'off',
+    "react/jsx-props-no-spreading": 'off',
+    "@typescript-eslint/strict-boolean-expressions": 'off',
+    "react/display-name": 'off',
+    "@typescript-eslint/promise-function-async": 'off'
   },
 }
