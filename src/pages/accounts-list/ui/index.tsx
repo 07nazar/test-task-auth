@@ -1,3 +1,3 @@
-import { type FC } from 'react'
+import { lazy } from 'react'
 
-export const AccountsList: FC = () => <div>AccountsList</div>
+export const AsyncAccountsList = lazy(() => import('./accounts-list'))
