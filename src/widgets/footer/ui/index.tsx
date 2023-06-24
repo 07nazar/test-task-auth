@@ -1,17 +1,27 @@
 import { type FC } from 'react'
-import { Button } from 'src/shared/ui/button'
 import { Paragraph } from 'src/shared/ui/paragraph'
 import classNames from 'classnames'
+import { Link, useLocation } from 'react-router-dom'
 import styles from './footer.module.scss'
 
-// TODO   Переробити на посилання
-export const Footer: FC = () => (
-  <footer className='bg-white'>
-    <div className={classNames('container', styles.footer)}>
-      <Button styleType='secondary' className={styles.button}>
-        <Paragraph className={styles.paragraph}>Уже есть аккаунт?</Paragraph>
-        Войти
-      </Button>
-    </div>
-  </footer>
-)
+export const Footer: FC = () => {
+  const { pathname } = useLocation()
+
+  return (
+    <footer className='bg-white'>
+      <div className={classNames('container', styles.footer)}>
+        <Paragraph className={styles.paragraph}>
+          {pathname === '/auth' ? (
+            <Link className={styles.link} to='/auth/register'>
+              Еще нет аккаунта? Зарегистрироваться
+            </Link>
+          ) : (
+            <Link className={styles.link} to='/auth'>
+              Уже есть аккаунт? Войти
+            </Link>
+          )}
+        </Paragraph>
+      </div>
+    </footer>
+  )
+}
