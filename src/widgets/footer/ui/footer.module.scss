@@ -5,11 +5,13 @@
   padding: 23px 0;
 }
 
-.button {
-  border: none;
-  padding: 0;
-}
-
 .paragraph {
   margin-right: 5px;
+}
+
+.link {
+  transition: color 0.3s;
+  &:hover {
+    color: deepskyblue;
+  }
 }
