@@ -12,6 +12,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const Input: FC<InputProps> = props => {
   const {
+    className = '',
     inputId,
     value = '',
     onChange,
@@ -21,6 +22,8 @@ export const Input: FC<InputProps> = props => {
     error = false,
     BeforeElement,
     AfterElement,
+    onBlur,
+    ...otherProps
   } = props
 
   const [isFocus, setFocus] = useState(false)
@@ -28,7 +31,7 @@ export const Input: FC<InputProps> = props => {
   return (
     <label
       htmlFor={inputId}
-      className={classNames(styles.inputWrapper, {
+      className={classNames(styles.inputWrapper, className, {
         [styles.disable]: disabled,
         [styles.focus]: isFocus,
         [styles.error]: error,
@@ -42,15 +45,14 @@ export const Input: FC<InputProps> = props => {
         />
       )}
       <input
+        {...otherProps}
         id={inputId}
         value={value}
         type={type}
         onFocus={() => {
           setFocus(true)
         }}
-        onBlur={() => {
-          setFocus(false)
-        }}
+        onBlur={onBlur}
         onChange={onChange}
         className={classNames(styles.input)}
         placeholder={placeholder}
