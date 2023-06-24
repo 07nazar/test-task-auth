@@ -1,58 +1,45 @@
-import { type FC, useState } from 'react'
+import { type FC, useEffect } from 'react'
 import { AuthForm } from 'src/shared/ui/auth-form/ui'
-import { Input } from 'src/shared/ui/input'
-import { Castle, Eye, MailIcon, ProfileIcon } from 'src/shared/icons'
+import { useAppDispatch } from 'src/shared/lib/hooks/use-app-dispatch'
+import { registration } from 'src/entities/session'
+import { useNavigate } from 'react-router-dom'
+import { useSliceSelector } from 'src/shared/lib/hooks/use-app-selector'
+import { toast } from 'react-toastify'
+import { clearError } from 'src/entities/session/model/slice'
+import { inputGroup, registerSchema } from '../model'
 
 export const RegisterForm: FC = () => {
-  const [inputValues, setInputValues] = useState({
-    name: '',
-    email: '',
-    password: '',
-  })
+  const { isAuthorized, error } = useSliceSelector('session', state => state)
+
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (isAuthorized) {
+      navigate('/')
+      toast('Register was success', { type: 'success' })
+    }
+  }, [isAuthorized, navigate])
+
+  useEffect(() => {
+    if (error) {
+      toast(error, { type: 'error' })
+      dispatch(clearError())
+    }
+  }, [error])
+
   return (
     <AuthForm
+      initialValues={{ name: '', email: '', password: '' }}
+      validationSchema={registerSchema}
+      submitForm={data => {
+        void dispatch(registration(data))
+      }}
       titleValue='Регистрация в Yoldi Agency'
-      inputGroup={
-        <>
-          <Input
-            value={inputValues.name}
-            onChange={e => {
-              setInputValues(prev => ({ ...prev, name: e.target.value }))
-            }}
-            type='text'
-            BeforeElement={ProfileIcon}
-            inputId='name'
-            placeholder='Имя'
-          />
-          <Input
-            value={inputValues.email}
-            onChange={e => {
-              setInputValues(prev => ({ ...prev, email: e.target.value }))
-            }}
-            type='email'
-            BeforeElement={MailIcon}
-            inputId='email'
-            placeholder='E-mail'
-          />
-          <Input
-            value={inputValues.password}
-            type='password'
-            onChange={e => {
-              setInputValues(prev => ({ ...prev, password: e.target.value }))
-            }}
-            BeforeElement={Castle}
-            AfterElement={Eye}
-            inputId='password'
-            placeholder='Пароль'
-          />
-        </>
-      }
+      inputGroup={inputGroup}
       button={{
+        type: 'submit',
         value: 'Создать аккаунт',
-        isDisable:
-          inputValues.name === '' ||
-          inputValues.email === '' ||
-          inputValues.password === '',
       }}
     />
   )
