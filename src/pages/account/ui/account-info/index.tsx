@@ -2,11 +2,12 @@ import { type FC } from 'react'
 import { Title } from 'src/shared/ui/title/ui'
 import { Paragraph } from 'src/shared/ui/paragraph'
 import { Avatar } from 'src/shared/ui/avatar'
-import avatar from 'src/shared/images/avatar.png'
+import avatar from 'src/shared/images/empty-avatar.png'
 
 import { EditUserInfo } from 'src/features/account/edit-user-info'
 import { useSliceSelector } from 'src/shared/lib/hooks/use-app-selector'
 import { capitalizeName } from 'src/shared/lib/helpers/capitalize-name'
+
 import styles from './account-info.module.scss'
 
 export const AccountInfo: FC = () => {
@@ -29,6 +30,7 @@ export const AccountInfo: FC = () => {
         imageUrl={image.url || avatar}
         className={styles.avatar}
       />
+
       <div className={styles.topInfo}>
         <div className={styles.baseInfo}>
           <Title titleType='title' className={styles.name}>

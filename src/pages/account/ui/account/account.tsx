@@ -6,7 +6,7 @@ import { AccountInfo } from '../account-info'
 import styles from './account.module.scss'
 
 const Account: FC = () => (
-  <div>
+  <div className={styles.account}>
     <AccountHeader />
     <div className={styles.accountInfoWrapper}>
       <div className={styles.accountInfo}>
