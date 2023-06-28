@@ -32,7 +32,13 @@ export const Header: FC = () => {
         {userDto && (
           <Link to='account/123' className={styles.user_group}>
             <Paragraph>{capitalizeName(userDto.name)}</Paragraph>
-            <img src={userDto.image.url || avatar} alt='user-avatar' />
+            <img
+              width={50}
+              className={styles.avatar}
+              height={50}
+              src={userDto.image.url || avatar}
+              alt='user-avatar'
+            />
           </Link>
         )}
         {isAuthorized && !userDto && (
