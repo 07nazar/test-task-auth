@@ -23,25 +23,28 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   response => response,
   async error => {
-    const originalRequest = error.config
-    if (error.response.status === 401) {
-      return await Promise.reject(error)
-    }
+    const config = error?.config
 
-    if (error.response.status === 401 && originalRequest._retry === false) {
-      originalRequest._retry = true
+    if (error?.response?.status === 401 && !config?.sent) {
+      config.sent = true
 
-      return await axiosInstance.post('/auth/refresh').then(async res => {
-        if (res.status === 201) {
-          const token = Cookies.get('accessToken')
-          if (token !== undefined) {
-            axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`
-          }
+      const response = await axios.get<{ accessToken: string }>(
+        'http://localhost:3433/auth/refresh',
+        {
+          withCredentials: true,
         }
-        return await axiosInstance(originalRequest)
-      })
-    }
+      )
 
+      if (response.data.accessToken) {
+        Cookies.set('accessToken', response.data.accessToken)
+        config.headers = {
+          ...config.headers,
+          authorization: `Bearer ${response.data.accessToken}`,
+        }
+      }
+
+      return await axiosInstance(config)
+    }
     return await Promise.reject(error)
   }
 )
