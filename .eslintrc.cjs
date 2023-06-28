@@ -37,6 +37,7 @@ module.exports = {
     "react/jsx-props-no-spreading": 'off',
     "@typescript-eslint/strict-boolean-expressions": 'off',
     "react/display-name": 'off',
-    "@typescript-eslint/promise-function-async": 'off'
+    "@typescript-eslint/promise-function-async": 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off'
   },
 }
