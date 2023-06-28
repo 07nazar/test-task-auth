@@ -31,11 +31,13 @@ export const sessionSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(login.fulfilled, (state: SessionSliceState, action) => {
-        state.isAuthorized = !!Cookies.get('accessToken')
+        Cookies.set('accessToken', action.payload.token)
+        state.isAuthorized = true
         state.userId = action.payload.id
       })
-      .addCase(registration.fulfilled, (state: SessionSliceState) => {
-        state.isAuthorized = !!Cookies.get('accessToken')
+      .addCase(registration.fulfilled, (state: SessionSliceState, action) => {
+        Cookies.set('accessToken', action.payload.token)
+        state.isAuthorized = true
         state.error = ''
       })
       .addMatcher(
@@ -47,6 +49,8 @@ export const sessionSlice = createSlice({
       .addMatcher(
         action => action.type.endsWith('/rejected'),
         (state, action) => {
+          Cookies.remove('accessToken')
+          Cookies.remove('refreshToken')
           state.isAuthorized = false
           state.error = action.payload
         }
