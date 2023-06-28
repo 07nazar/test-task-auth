@@ -15,3 +15,16 @@ export const fetchProfile = createAsyncThunk(
     }
   }
 )
+
+export const fetchAllUsers = createAsyncThunk(
+  'user/fetchAllUsers',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get<IUser[]>(`user/all-users`)
+      return response.data
+    } catch (error) {
+      const errorObject = error as AxiosError
+      return rejectWithValue(errorObject.message)
+    }
+  }
+)
