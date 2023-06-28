@@ -47,3 +47,15 @@ export const registration = createAsyncThunk(
     }
   }
 )
+
+export const logout = createAsyncThunk(
+  'session/logoutThunk',
+  async (_, { rejectWithValue }) => {
+    try {
+      return await axiosInstance.post('auth/logout')
+    } catch (error) {
+      const errorObject = error as AxiosError
+      return rejectWithValue(errorObject.message)
+    }
+  }
+)
