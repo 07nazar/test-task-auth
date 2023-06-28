@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { login, registration } from 'src/entities/session'
 import Cookies from 'js-cookie'
+import { logout } from 'src/entities/session/api/auth-async-thunks'
 
 interface SessionSliceState {
   userId: string | null
@@ -39,6 +40,13 @@ export const sessionSlice = createSlice({
         Cookies.set('accessToken', action.payload.token)
         state.isAuthorized = true
         state.error = ''
+      })
+      .addCase(logout.fulfilled, (state: SessionSliceState) => {
+        Cookies.remove('accessToken')
+        Cookies.remove('refreshToken')
+        state.isAuthorized = false
+        state.userId = null
+        state.error = null
       })
       .addMatcher(
         action => action.type.endsWith('/pending'),

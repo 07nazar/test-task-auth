@@ -52,7 +52,9 @@ export const logout = createAsyncThunk(
   'session/logoutThunk',
   async (_, { rejectWithValue }) => {
     try {
-      return await axiosInstance.post('auth/logout')
+      const response = await axiosInstance.post<{ ok: boolean }>('auth/logout')
+
+      return response.data.ok
     } catch (error) {
       const errorObject = error as AxiosError
       return rejectWithValue(errorObject.message)

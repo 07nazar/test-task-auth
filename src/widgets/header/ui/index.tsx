@@ -18,9 +18,13 @@ export const Header: FC = () => {
   return (
     <header className='bg-white'>
       <div className={classNames('container', styles.header)}>
-        <Link to='/'>
+        {isAuthorized ? (
+          <Link to='/'>
+            <img src={headerLogo} className={styles.logo} alt='header-logo' />
+          </Link>
+        ) : (
           <img src={headerLogo} className={styles.logo} alt='header-logo' />
-        </Link>
+        )}
 
         <Paragraph className={styles.paragraph}>
           Разрабатываем и запускаем
